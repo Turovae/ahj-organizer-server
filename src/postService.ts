@@ -6,7 +6,7 @@ interface PostProps {
   timestamp: number
 }
 
-const posts = [
+let posts = [
   {
     id: 1,
     isUser: true,
@@ -44,10 +44,23 @@ const posts = [
   }
 ];
 
-let nextId = 0;
+let nextId = 6;
 
 function getPosts (): PostProps[] {
   return posts;
 }
 
-export { getPosts };
+function addPost (msg: string): void {
+  const newPost = {
+    content: msg,
+    id: nextId,
+    title: `Message ${nextId}`,
+    timestamp: Date.now(),
+    isUser: true
+  };
+
+  posts = [...posts, newPost];
+  nextId = nextId + 1;
+}
+
+export { getPosts, addPost };
