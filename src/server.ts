@@ -43,7 +43,7 @@ router.post('/posts/upload', async (ctx, next) => {
   // console.log(ctx.request.body);
   // console.log(ctx.request.files);
   const publicDir = path.join(__dirname, '/public');
-  console.log(`isExistPublicDir: ${fs.existsSync(publicDir)}`);
+  // console.log(`isExistPublicDir: ${fs.existsSync(publicDir)}`);
 
   if (!fs.existsSync(publicDir)) {
     fs.mkdirSync(publicDir);
@@ -52,12 +52,17 @@ router.post('/posts/upload', async (ctx, next) => {
   try {
     const { file } = ctx.request.files as unknown as { file: any };
     console.log(file);
-    console.log(file.filepath);
+    // console.log(file.filepath);
 
-    fs.copyFileSync(file.filepath, `${publicDir}/${file.newFilename}`);
+    fs.copyFileSync(file.filepath, `${publicDir}/${file.originalFilename}`);
+
+    console.log()
   } catch (e) {
     console.log(e);
   }
+
+  ctx.response.body = {status: 'ok'};
+  console.log(postsService.getPosts());
 });
 
 app.use(router.routes());
